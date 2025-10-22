@@ -4,23 +4,32 @@ import MovieSelector from './components/MovieSelector'
 import LoadingIcon from './components/LoadingIcon';
 import movieGenres from './sampleData/movieData';
 import LoadMovies from './components/LoadMovies';
+import { flushSync } from 'react-dom';
 
-export default function App () {
-  
+const LOADING_MS = 800;
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [movies, setMovies] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
 
-  function handleFetch() {
-    const genreFind = movieGenres.find(genre => genre.GenreID === selectedGenre)
-    setError("")
-    if(selectedGenre) {
-      setMovies(genreFind.movieTitles)
-    } else { 
-      setError("Please Select a genre to continue")
-      setMovies([])
+  async function handleFetch() {
+    setError('');
+    setMovies([]);
+    if (!selectedGenre) {
+      setError('Please Select a genre to continue');
+      return;
     }
+    flushSync(() => setIsLoading(true));
+    
+    const genre = movieGenres.find((g) => g.GenreID === selectedGenre);
+    const result = genre?.movieTitles ?? [];
+
+    await delay(LOADING_MS);
+    setMovies(result);
+    setIsLoading(false);
   }
 
   return (
