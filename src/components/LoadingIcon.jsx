@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSpinner } from 
 
-const Loading = () => {
+
+const LoadingIcon = () => {
     return (
         <div className="loading-spinner">
             <FontAwesomeIcon icon={faSpinner} />
@@ -9,4 +9,4 @@ const Loading = () => {
     )
 }
 
-export default Loading
+export default LoadingIcon
