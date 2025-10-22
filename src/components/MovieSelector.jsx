@@ -1,20 +1,16 @@
-import { useState } from "react";
 import movieGenres from "../sampleData/movieData";
 
-const MovieSelector = () => {
+const MovieSelector = ({selectedGenre, setSelectedGenre}) => {
     let genreJSX = [...movieGenres].map((genre) => {
         return <option value={genre.GenreID} id={genre.GenreID}>{genre.GenreName}</option>
     })
 
-    const [selectedGenre, setSelectedGenre] = useState('');
-
     return (
         <div>
-            <select id="genre-select" name="genre-select" value={selectedGenre}>
+            <select id="genre-select" name="genre-select" value={selectedGenre} onChange={(e) => {setSelectedGenre(e.target.value)}}>
                 <option value="" id="null"></option>
                 {genreJSX}
             </select>
-            <button onClick={() => (setSelectedGenre())}>Fetch Movies</button>
         </div>
         
 )}
